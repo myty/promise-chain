@@ -4,7 +4,7 @@ export class Chaninable<T> {
   private _chain: { key: keyof T; args: unknown[] }[] = [];
 
   private constructor(private _wrappedClass: T) {
-    Chaninable.keysOfPrototype(_wrappedClass).forEach((key) => {
+    Chaninable.keysOfObject(_wrappedClass).forEach((key) => {
       const callableFunc = _wrappedClass[key];
 
       if (!(callableFunc instanceof Function)) {
@@ -46,7 +46,7 @@ export class Chaninable<T> {
     return this._wrappedClass;
   }
 
-  private static keysOfPrototype<T>(obj: T): Array<keyof T> {
+  private static keysOfObject<T>(obj: T): Array<keyof T> {
     const proto = Object.getPrototypeOf(obj);
 
     const keys = Object.keys(obj).concat(
