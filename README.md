@@ -33,5 +33,6 @@ const {propertyOne, propertyTwo} = await Chaninable.create(testClass)
     .asyncIncrement("propertyTwo", 5)
     .value();
 
-console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`); // OUTPUT: "Result: propertyOne=3, propertyTwo=5"
+console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`);
+// OUTPUT: "Result: propertyOne=3, propertyTwo=5"
 ```
