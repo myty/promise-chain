@@ -1,3 +1,5 @@
+// deno-lint-ignore-file ban-types
+
 // https://stackoverflow.com/a/57044690/203857
 export type KeysMatching<T, V> = {
   [K in keyof T]-?: T[K] extends V ? K : never;
