@@ -12,4 +12,8 @@
     "deno.suggest.completeFunctionCalls": true,
     "deno.suggest.imports.autoDiscover": true,
     "deno.testing.enable": true,
+    "editor.defaultFormatter": "denoland.vscode-deno",
+    "[typescript]": {
+        "editor.defaultFormatter": "denoland.vscode-deno",
+    }
 }

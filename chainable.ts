@@ -44,7 +44,7 @@ export class Chaninable<T> {
 
       if (!(funcProperty instanceof Function)) {
         throw new Error(
-          `Property: ${String(step.key)} is not a callable function`
+          `Property: ${String(step.key)} is not a callable function`,
         );
       }
 
@@ -60,7 +60,9 @@ export class Chaninable<T> {
     const proto = Object.getPrototypeOf(obj);
 
     const keys = Object.keys(obj).concat(
-      Object.getOwnPropertyNames(proto).filter((name) => name !== "constructor")
+      Object.getOwnPropertyNames(proto).filter((name) =>
+        name !== "constructor"
+      ),
     );
 
     return keys as Array<keyof T>;

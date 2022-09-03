@@ -37,7 +37,7 @@ class TestClass {
 
   async asyncIncrement(
     property: keyof PickNumbers<TestClass>,
-    increment: number
+    increment: number,
   ): Promise<TestClass> {
     return new TestClass({
       ...this,
@@ -55,7 +55,7 @@ class TestClass {
 
   increment(
     property: keyof PickNumbers<TestClass>,
-    increment: number
+    increment: number,
   ): TestClass {
     return new TestClass({
       ...this,
