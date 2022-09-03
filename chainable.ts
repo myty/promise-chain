@@ -1,6 +1,17 @@
 import { AsyncChainable } from "./types.ts";
 
+/**
+ * Utility class to wrap classes that are meant for method chaining, specifically useful for
+ * functions that return Promises. Promise functions and non-promise functions can be mixed.
+ */
 export class Chaninable<T> {
+  /**
+   * Create a chaninable class based off of the functions that return "this" or a Promise of "this".
+   */
+  static create<T>(wrappedClass: T): AsyncChainable<T> {
+    return new Chaninable(wrappedClass) as unknown as AsyncChainable<T>;
+  }
+
   private _chain: { key: keyof T; args: unknown[] }[] = [];
 
   private constructor(private _wrappedClass: T) {
@@ -24,10 +35,9 @@ export class Chaninable<T> {
     });
   }
 
-  static create<T>(wrappedClass: T): AsyncChainable<T> {
-    return new Chaninable(wrappedClass) as unknown as AsyncChainable<T>;
-  }
-
+  /**
+   * Unfolds the chain of methods by executing them in the order at which they were called.
+   */
   async value(): Promise<T> {
     for (const step of this._chain) {
       const funcProperty = this._wrappedClass[step.key];
