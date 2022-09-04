@@ -12,7 +12,7 @@ await build({
   },
   package: {
     name: "composable-async",
-    version: Deno.args[0],
+    version: Deno.args[0].substring("refs/tags/v".length),
     description:
       "Wrapper utility class that enables composition via asynchronous (Promises) and synchronous method chaining.",
     license: "MIT",
