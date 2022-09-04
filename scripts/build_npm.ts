@@ -14,7 +14,7 @@ await build({
     name: "composable-async",
     version: Deno.args[0],
     description:
-      "Wrapper utility class that enables asynchronous (Promises) and synchronous method chaining.",
+      "Wrapper utility class that enables composition via asynchronous (Promises) and synchronous method chaining.",
     license: "MIT",
     repository: {
       type: "git",

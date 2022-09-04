@@ -1,8 +1,8 @@
 import { AsyncComposable } from "./types.ts";
 
 /**
- * Utility class to wrap classes that are meant for method chaining, specifically useful for
- * functions that return Promises. Promise functions and non-promise functions can be mixed.
+ * Utility class to wrap a composition class with the intended purpose of chaining methods, specifically useful for
+ * functions that return Promises. Note: Promise functions and non-promise functions can be mixed.
  */
 export class Composable<T> {
   /**
@@ -12,7 +12,7 @@ export class Composable<T> {
     return new Composable(wrappedClass) as unknown as AsyncComposable<T>;
   }
 
-  private _chain: { key: keyof T; args: unknown[] }[] = [];
+  private _compositionSteps: { key: keyof T; args: unknown[] }[] = [];
 
   private constructor(private _wrappedClass: T) {
     Composable.keysOfObject(_wrappedClass).forEach((key) => {
@@ -24,7 +24,7 @@ export class Composable<T> {
 
       Object.defineProperty(this, key, {
         value: (...args: unknown[]) => {
-          this._chain.push({
+          this._compositionSteps.push({
             key,
             args,
           });
@@ -36,10 +36,10 @@ export class Composable<T> {
   }
 
   /**
-   * Unfolds the chain of methods by executing them in the order at which they were called.
+   * Unfolds a series of methods by executing them in the order at which they were added to the composition chain.
    */
   async value(): Promise<T> {
-    for (const step of this._chain) {
+    for (const step of this._compositionSteps) {
       const funcProperty = this._wrappedClass[step.key];
 
       if (!(funcProperty instanceof Function)) {

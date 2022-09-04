@@ -1,7 +1,6 @@
 # Composable-Async
 
-Wrapper utility class that enables asynchronous (Promises) and synchronous
-method chaining.
+rapper utility class that enables composition via asynchronous (Promises) and synchronous method chaining.
 
 ## Example Usage
 
