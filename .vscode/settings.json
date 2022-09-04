@@ -1,19 +1,19 @@
 {
-    "deno.codeLens.implementations": true,
-    "deno.enable": true,
-    "deno.codeLens.test": true,
-    "deno.codeLens.references": true,
-    "deno.codeLens.referencesAllFunctions": true,
-    "deno.codeLens.testArgs": [
-        "--allow-all",
-        "--no-check"
-    ],
-    "deno.suggest.autoImports": true,
-    "deno.suggest.completeFunctionCalls": true,
-    "deno.suggest.imports.autoDiscover": true,
-    "deno.testing.enable": true,
-    "editor.defaultFormatter": "denoland.vscode-deno",
-    "[typescript]": {
-        "editor.defaultFormatter": "denoland.vscode-deno",
-    }
+  "deno.codeLens.implementations": true,
+  "deno.enable": true,
+  "deno.codeLens.test": true,
+  "deno.codeLens.references": true,
+  "deno.codeLens.referencesAllFunctions": true,
+  "deno.codeLens.testArgs": [
+    "--allow-all",
+    "--no-check"
+  ],
+  "deno.suggest.autoImports": true,
+  "deno.suggest.completeFunctionCalls": true,
+  "deno.suggest.imports.autoDiscover": true,
+  "deno.testing.enable": true,
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  }
 }

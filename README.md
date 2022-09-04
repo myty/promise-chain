@@ -1,6 +1,7 @@
-# Chainable
+# Composable-Async
 
-Utility class to wrap classes that are meant for method chaining, specifically useful for functions that return Promises. Promise functions and non-promise functions can be mixed.
+rapper utility class that enables composition via asynchronous (Promises) and
+synchronous method chaining.
 
 ## Example Usage
 
@@ -19,7 +20,7 @@ class TestClass {
 
   async asyncIncrement(
     property: keyof PickNumbers<TestClass>,
-    increment: number
+    increment: number,
   ): Promise<TestClass> {
     return new TestClass({
       ...this,
@@ -28,10 +29,10 @@ class TestClass {
   }
 }
 
-const {propertyOne, propertyTwo} = await Chaninable.create(testClass)
-    .asyncIncrement("propertyOne", 3)
-    .asyncIncrement("propertyTwo", 5)
-    .value();
+const { propertyOne, propertyTwo } = await Composable.create(testClass)
+  .asyncIncrement("propertyOne", 3)
+  .asyncIncrement("propertyTwo", 5)
+  .value();
 
 console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`);
 // OUTPUT: "Result: propertyOne=3, propertyTwo=5"
