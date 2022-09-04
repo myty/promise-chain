@@ -11,6 +11,8 @@ jobs:
     name: Testing
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - uses: ./.github/workflows/lint.yml
 
       - name: Run Tests
