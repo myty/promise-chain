@@ -1,7 +1,29 @@
 # Composable-Async
 
-rapper utility class that enables composition via asynchronous (Promises) and
+[![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno)](https://deno.land/x/composable_async)
+[![npm version](https://badge.fury.io/js/composable-async.svg)](https://badge.fury.io/js/composable-async)
+
+Wrapper utility class that enables composition via asynchronous (Promises) and
 synchronous method chaining.
+
+## Installation
+
+### Node.js
+
+```bash
+# npm
+npm install --save composable-async
+# yarn
+yarn add composable-async
+# pnpm
+pnpm install --save composable-async
+```
+
+### Deno
+
+```bash
+import { Composable } from "https://deno.land/x/composable_async/mod.ts";
+```
 
 ## Example Usage
 
