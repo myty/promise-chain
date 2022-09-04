@@ -1,7 +1,8 @@
 name: Test
 
 on:
-  pull_request: # on a pull request to each of these branches
+  workflow_call:
+  pull_request:
     branches:
       - main
 
@@ -10,11 +11,7 @@ jobs:
     name: Testing
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: ./.github/workflows/lint.yml
 
-      - uses: denoland/setup-deno@v1.0.0
-        with:
-          deno-version: v1.x
-
-      - name: check format
+      - name: Run Tests
         run: deno test

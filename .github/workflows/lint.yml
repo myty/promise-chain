@@ -1,7 +1,8 @@
 name: Lint
 
 on:
-  pull_request: # on a pull request to each of these branches
+  workflow_call:
+  pull_request:
     branches:
       - main
 
@@ -16,8 +17,8 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: check format
+      - name: Check format
         run: deno fmt --check
 
-      - name: check linting
+      - name: Run Linter
         run: deno lint

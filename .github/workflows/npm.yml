@@ -1,4 +1,4 @@
-name: Publish NPM Package
+name: Publish
 on:
   workflow_dispatch:
   release:
@@ -9,19 +9,9 @@ jobs:
     name: Publishing
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: ./.github/workflows/lint.yml
 
-      - uses: denoland/setup-deno@v1.0.0
-        with:
-          deno-version: v1.x
-
-      - name: check format
-        run: deno fmt --check
-
-      - name: check linting
-        run: deno lint
-
-      - name: build npm package
+      - name: Build NPM Package
         run: deno run -A _build_npm.ts ${{ github.ref }}
 
       - uses: actions/setup-node@v2
@@ -29,7 +19,7 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: publish npm package
+      - name: Publish NPM Package
         run: |
           cd npm
           npm publish
