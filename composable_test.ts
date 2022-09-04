@@ -1,13 +1,13 @@
 import { assertEquals } from "https://deno.land/std@0.154.0/testing/asserts.ts";
-import { Chaninable } from "./chainable.ts";
+import { Composable } from "./composable.ts";
 import { PickMatching } from "./types.ts";
 
-Deno.test(async function asyncChainable() {
+Deno.test(async function composableAsync() {
   // Arrange
   const testClass = new TestClass();
 
   // Act
-  const result = await Chaninable.create(testClass)
+  const result = await Composable.create(testClass)
     .asyncIncrement("propertyOne", 3)
     .asyncIncrementTwo()
     .asyncIncrementOne()

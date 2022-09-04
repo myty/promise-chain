@@ -1,21 +1,21 @@
-import { AsyncChainable } from "./types.ts";
+import { AsyncComposable } from "./types.ts";
 
 /**
  * Utility class to wrap classes that are meant for method chaining, specifically useful for
  * functions that return Promises. Promise functions and non-promise functions can be mixed.
  */
-export class Chaninable<T> {
+export class Composable<T> {
   /**
    * Create a chaninable class based off of the functions that return "this" or a Promise of "this".
    */
-  static create<T>(wrappedClass: T): AsyncChainable<T> {
-    return new Chaninable(wrappedClass) as unknown as AsyncChainable<T>;
+  static create<T>(wrappedClass: T): AsyncComposable<T> {
+    return new Composable(wrappedClass) as unknown as AsyncComposable<T>;
   }
 
   private _chain: { key: keyof T; args: unknown[] }[] = [];
 
   private constructor(private _wrappedClass: T) {
-    Chaninable.keysOfObject(_wrappedClass).forEach((key) => {
+    Composable.keysOfObject(_wrappedClass).forEach((key) => {
       const callableFunc = _wrappedClass[key];
 
       if (!(callableFunc instanceof Function)) {

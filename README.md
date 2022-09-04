@@ -1,6 +1,6 @@
-# Chainable
+# Composable-Async
 
-Utility class to wrap classes that are meant for method chaining, specifically useful for functions that return Promises. Promise functions and non-promise functions can be mixed.
+Wrapper utility class that enables asynchronous (Promises) and synchronous method chaining.
 
 ## Example Usage
 
@@ -28,7 +28,7 @@ class TestClass {
   }
 }
 
-const {propertyOne, propertyTwo} = await Chaninable.create(testClass)
+const {propertyOne, propertyTwo} = await Composable.create(testClass)
     .asyncIncrement("propertyOne", 3)
     .asyncIncrement("propertyTwo", 5)
     .value();

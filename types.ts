@@ -10,11 +10,10 @@ export type PickMatching<T, V> = Pick<T, KeysMatching<T, V>>;
 export type PickFunctionsThatReturnSelf<TType> = {
   [TKey in keyof PickMatching<TType, Function>]: TType[TKey] extends (
     ...args: infer TParams
-  ) => TType | Promise<TType>
-    ? (...args: TParams) => AsyncChainable<TType>
+  ) => TType | Promise<TType> ? (...args: TParams) => AsyncComposable<TType>
     : never;
 };
 
-export type AsyncChainable<TType> = PickFunctionsThatReturnSelf<TType> & {
+export type AsyncComposable<TType> = PickFunctionsThatReturnSelf<TType> & {
   value(): Promise<TType>;
 };
