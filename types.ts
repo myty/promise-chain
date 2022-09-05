@@ -14,6 +14,6 @@ export type PickFunctionsThatReturnSelf<TType> = {
     : never;
 };
 
-export type AsyncComposable<TType> = PickFunctionsThatReturnSelf<TType> & {
-  value(): Promise<TType>;
-};
+export type AsyncComposable<TType> =
+  & PickFunctionsThatReturnSelf<TType>
+  & Promise<TType>;

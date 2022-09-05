@@ -4,7 +4,7 @@ import { AsyncComposable } from "./types.ts";
  * Utility class to wrap a composition class with the intended purpose of chaining methods, specifically useful for
  * functions that return Promises. Note: Promise functions and non-promise functions can be mixed.
  */
-export class Composable<T> {
+export class Composable<T> implements Promise<T> {
   /**
    * Create a chaninable class based off of the functions that return "this" or a Promise of "this".
    */
@@ -38,12 +38,39 @@ export class Composable<T> {
     });
   }
 
-  /**
-   * Unfolds a series of methods by executing them in the order at which they were added to the composition chain.
-   */
-  value(): Promise<T> {
-    return this._valuePromise;
+  // Promise<T> implementation
+
+  then<TResult1 = T, TResult2 = never>(
+    onfulfilled?:
+      | ((value: T) => TResult1 | PromiseLike<TResult1>)
+      | null
+      | undefined,
+    onrejected?:
+      | ((reason: unknown) => TResult2 | PromiseLike<TResult2>)
+      | null
+      | undefined,
+  ): Promise<TResult1 | TResult2> {
+    return this._valuePromise.then(onfulfilled, onrejected);
   }
+
+  catch<TResult = never>(
+    onrejected?:
+      | ((
+        reason: unknown,
+      ) => TResult | PromiseLike<TResult>)
+      | null
+      | undefined,
+  ): Promise<T | TResult> {
+    return this._valuePromise.catch(onrejected);
+  }
+
+  finally(onfinally?: (() => void) | null | undefined): Promise<T> {
+    return this._valuePromise.finally(onfinally);
+  }
+
+  [Symbol.toStringTag]!: "Composable";
+
+  // Private static methods
 
   private static keysOfObject<T>(obj: T): Array<keyof T> {
     const proto = Object.getPrototypeOf(obj);

@@ -1,6 +1,6 @@
 import {
+  assert,
   assertEquals,
-  assertFalse,
 } from "https://deno.land/std@0.154.0/testing/asserts.ts";
 import { delay } from "https://deno.land/std@0.154.0/async/delay.ts";
 import { Composable } from "./composable.ts";
@@ -35,8 +35,7 @@ Deno.test(async function whenAsyncChainingItReturnsResult() {
     .asyncIncrementOne()
     .increment("propertyTwo", 5)
     .increment("propertyOne", 2)
-    .asyncIncrementOne()
-    .value();
+    .asyncIncrementOne();
 
   // Assert
   assertEquals(result.propertyOne, 7);
@@ -50,17 +49,17 @@ Deno.test(async function whenChainedPromiseIsReusedItReturnsCachedResult() {
   const resultTask = Composable.create(testClass)
     .asyncIncrement("propertyTwo", 3)
     .asyncIncrementOneLongRunningTask(durationExpectedMs);
-  await resultTask.value();
+  await resultTask;
 
   // Act
   const startTime = Date.now();
   const resultTwo = await resultTask
-    .asyncIncrement("propertyTwo", 3).value();
+    .asyncIncrement("propertyTwo", 3);
   const durationActualMs = Date.now() - startTime;
 
   // Assert
-  assertFalse(
-    durationActualMs >= durationExpectedMs,
+  assert(
+    durationActualMs < durationExpectedMs,
     `durationActual was actually ${durationActualMs}`,
   );
   assertEquals(resultTwo.propertyOne, 1);
