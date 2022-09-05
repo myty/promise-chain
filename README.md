@@ -82,8 +82,7 @@ With Composable-Async, it is simplified and easier to read.
 const { propertyOne, propertyTwo } = await Composable.create(testClass)
   .asyncIncrement("propertyOne", 3)
   .asyncIncrement("propertyTwo", 5)
-  .increment("propertyTwo", 5)
-  .value();
+  .increment("propertyTwo", 5);
 
 console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`);
 // OUTPUT: "Result: propertyOne=3, propertyTwo=10"
