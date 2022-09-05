@@ -27,6 +27,8 @@ import { Composable } from "https://deno.land/x/composable_async/mod.ts";
 
 ## Example Usage
 
+Provided the following class:
+
 ```typescript
 class TestClass {
   public readonly propertyOne: number;
@@ -35,13 +37,13 @@ class TestClass {
   constructor({
     propertyOne = 0,
     propertyTwo = 0,
-  }: Partial<PickNumbers<TestClass>> = {}) {
+  }: Partial<TestClass> = {}) {
     this.propertyOne = propertyOne;
     this.propertyTwo = propertyTwo;
   }
 
   async asyncIncrement(
-    property: keyof PickNumbers<TestClass>,
+    property: string,
     increment: number,
   ): Promise<TestClass> {
     return new TestClass({
@@ -49,13 +51,40 @@ class TestClass {
       [property]: await Promise.resolve(this[property] + increment),
     });
   }
-}
 
+  increment(
+    property: string,
+    increment: number,
+  ): Promise<TestClass> {
+    return new TestClass({
+      ...this,
+      [property]: this[property] + increment,
+    });
+  }
+}
+```
+
+Traditionally to chain these methods you would need to do the follwing:
+
+```typescript
+const { propertyOne, propertyTwo } = await testClass
+  .asyncIncrement("propertyOne", 3)
+  .then((t) => tasyncIncrement("propertyTwo", 5))
+  .then((t) => Promise.resolve(t.increment("propertyTwo", 5)));
+
+console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`);
+// OUTPUT: "Result: propertyOne=3, propertyTwo=10"
+```
+
+With Composable-Async, it is simplified and easier to read.
+
+```typescript
 const { propertyOne, propertyTwo } = await Composable.create(testClass)
   .asyncIncrement("propertyOne", 3)
   .asyncIncrement("propertyTwo", 5)
+  .increment("propertyTwo", 5)
   .value();
 
 console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`);
-// OUTPUT: "Result: propertyOne=3, propertyTwo=5"
+// OUTPUT: "Result: propertyOne=3, propertyTwo=10"
 ```

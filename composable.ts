@@ -12,9 +12,11 @@ export class Composable<T> {
     return new Composable(wrappedClass) as unknown as AsyncComposable<T>;
   }
 
-  private _compositionSteps: { key: keyof T; args: unknown[] }[] = [];
+  private _valuePromise: Promise<T>;
 
-  private constructor(private _wrappedClass: T) {
+  private constructor(_wrappedClass: T) {
+    this._valuePromise = Promise.resolve(_wrappedClass);
+
     Composable.keysOfObject(_wrappedClass).forEach((key) => {
       const callableFunc = _wrappedClass[key];
 
@@ -24,10 +26,11 @@ export class Composable<T> {
 
       Object.defineProperty(this, key, {
         value: (...args: unknown[]) => {
-          this._compositionSteps.push({
-            key,
-            args,
-          });
+          this._valuePromise = this._valuePromise.then((val: T) =>
+            Promise.resolve(
+              callableFunc.apply(val, args),
+            )
+          );
 
           return this;
         },
@@ -38,22 +41,8 @@ export class Composable<T> {
   /**
    * Unfolds a series of methods by executing them in the order at which they were added to the composition chain.
    */
-  async value(): Promise<T> {
-    for (const step of this._compositionSteps) {
-      const funcProperty = this._wrappedClass[step.key];
-
-      if (!(funcProperty instanceof Function)) {
-        throw new Error(
-          `Property: ${String(step.key)} is not a callable function`,
-        );
-      }
-
-      const funcResult = funcProperty.apply(this._wrappedClass, step.args);
-
-      this._wrappedClass = await Promise.resolve(funcResult);
-    }
-
-    return this._wrappedClass;
+  value(): Promise<T> {
+    return this._valuePromise;
   }
 
   private static keysOfObject<T>(obj: T): Array<keyof T> {

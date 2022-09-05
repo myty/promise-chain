@@ -2,7 +2,25 @@ import { assertEquals } from "https://deno.land/std@0.154.0/testing/asserts.ts";
 import { Composable } from "./composable.ts";
 import { PickMatching } from "./types.ts";
 
-Deno.test(async function composableAsync() {
+Deno.test(async function traditionalAsyncChaining() {
+  // Arrange
+  const testClass = new TestClass();
+
+  // Act
+  const result = await testClass
+    .asyncIncrement("propertyOne", 3)
+    .then((t) => t.asyncIncrementTwo())
+    .then((t) => t.asyncIncrementOne())
+    .then((t) => Promise.resolve(t.increment("propertyTwo", 5)))
+    .then((t) => Promise.resolve(t.increment("propertyOne", 2)))
+    .then((t) => t.asyncIncrementOne());
+
+  // Assert
+  assertEquals(result.propertyOne, 7);
+  assertEquals(result.propertyTwo, 6);
+});
+
+Deno.test(async function asyncChaining() {
   // Arrange
   const testClass = new TestClass();
 
