@@ -1,8 +1,12 @@
-import { assertEquals } from "https://deno.land/std@0.154.0/testing/asserts.ts";
+import {
+  assertEquals,
+  assertFalse,
+} from "https://deno.land/std@0.154.0/testing/asserts.ts";
+import { delay } from "https://deno.land/std@0.154.0/async/delay.ts";
 import { Composable } from "./composable.ts";
 import { PickMatching } from "./types.ts";
 
-Deno.test(async function traditionalAsyncChaining() {
+Deno.test(async function whenTraditionalAsyncChainingItReturnsResult() {
   // Arrange
   const testClass = new TestClass();
 
@@ -20,7 +24,7 @@ Deno.test(async function traditionalAsyncChaining() {
   assertEquals(result.propertyTwo, 6);
 });
 
-Deno.test(async function asyncChaining() {
+Deno.test(async function whenAsyncChainingItReturnsResult() {
   // Arrange
   const testClass = new TestClass();
 
@@ -37,6 +41,30 @@ Deno.test(async function asyncChaining() {
   // Assert
   assertEquals(result.propertyOne, 7);
   assertEquals(result.propertyTwo, 6);
+});
+
+Deno.test(async function whenChainedPromiseIsReusedItReturnsCachedResult() {
+  // Arrange
+  const testClass = new TestClass();
+  const durationExpectedMs = 250;
+  const resultTask = Composable.create(testClass)
+    .asyncIncrement("propertyTwo", 3)
+    .asyncIncrementOneLongRunningTask(durationExpectedMs);
+  await resultTask.value();
+
+  // Act
+  const startTime = Date.now();
+  const resultTwo = await resultTask
+    .asyncIncrement("propertyTwo", 3).value();
+  const durationActualMs = Date.now() - startTime;
+
+  // Assert
+  assertFalse(
+    durationActualMs >= durationExpectedMs,
+    `durationActual was actually ${durationActualMs}`,
+  );
+  assertEquals(resultTwo.propertyOne, 1);
+  assertEquals(resultTwo.propertyTwo, 6);
 });
 
 type PickNumbers<T> = PickMatching<T, number>;
@@ -64,6 +92,13 @@ class TestClass {
   }
 
   async asyncIncrementOne(): Promise<TestClass> {
+    return await this.asyncIncrement("propertyOne", 1);
+  }
+
+  async asyncIncrementOneLongRunningTask(
+    durationMs: number,
+  ): Promise<TestClass> {
+    await delay(durationMs);
     return await this.asyncIncrement("propertyOne", 1);
   }
 
