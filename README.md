@@ -69,7 +69,7 @@ Traditionally to chain these methods you would need to do the follwing:
 ```typescript
 const { propertyOne, propertyTwo } = await testClass
   .asyncIncrement("propertyOne", 3)
-  .then((t) => tasyncIncrement("propertyTwo", 5))
+  .then((t) => t.asyncIncrement("propertyTwo", 5))
   .then((t) => Promise.resolve(t.increment("propertyTwo", 5)));
 
 console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`);
