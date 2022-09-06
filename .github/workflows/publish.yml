@@ -1,11 +1,7 @@
-name: NPM
+name: Publish
 on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
 
 jobs:
   publish:
@@ -27,5 +23,17 @@ jobs:
       - name: Run Tests
         run: deno test
 
-      - name: Build and Test NPM Package
+      - name: Build NPM Package
         run: deno run -A scripts/build_npm.ts ${{ github.ref }}
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Publish NPM Package
+        run: |
+          cd npm
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
