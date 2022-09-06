@@ -2,7 +2,6 @@ import {
   assert,
   assertEquals,
 } from "https://deno.land/std@0.154.0/testing/asserts.ts";
-import { delay } from "https://deno.land/std@0.154.0/async/delay.ts";
 import { Composable } from "./composable.ts";
 import { PickMatching } from "./types.ts";
 
@@ -94,11 +93,15 @@ class TestClass {
     return await this.asyncIncrement("propertyOne", 1);
   }
 
-  async asyncIncrementOneLongRunningTask(
+  asyncIncrementOneLongRunningTask(
     durationMs: number,
   ): Promise<TestClass> {
-    await delay(durationMs);
-    return await this.asyncIncrement("propertyOne", 1);
+    return new Promise((resolve) => {
+      const timer = setTimeout(() => {
+        this.asyncIncrement("propertyOne", 1).then(resolve);
+        clearTimeout(timer);
+      }, durationMs);
+    });
   }
 
   async asyncIncrementTwo(): Promise<TestClass> {
