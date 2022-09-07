@@ -1,9 +1,9 @@
 # Composable-Async
 
-[![GitHub version](https://badge.fury.io/gh/myty%2Fcomposable-async.svg)](https://badge.fury.io/gh/myty%2Fcomposable-async)
-[![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno)](https://deno.land/x/composable_async)
-[![npm version](https://badge.fury.io/js/composable-async.svg)](https://badge.fury.io/js/composable-async)
-[![Coverage Status](https://coveralls.io/repos/github/myty/composable-async/badge.svg?branch=main)](https://coveralls.io/github/myty/composable-async?branch=main)
+[![GitHub version](https://badgen.net/github/release/myty/composable-async?color=green)](https://github.com/myty/composable-async)
+[![deno land](https://badgen.net/github/release/myty/composable-async?color=green&label=deno.land)](https://deno.land/x/composable_async)
+[![npm version](https://badgen.net/npm/v/composable-async?color=green)](https://www.npmjs.com/package/composable-async)
+[![Coverage Status](https://badgen.net/coveralls/c/github/myty/composable-async?color=green)](https://coveralls.io/github/myty/composable-async?branch=main)
 
 Wrapper utility class that enables composition via asynchronous (Promises) and
 synchronous method chaining.
