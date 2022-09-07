@@ -8,11 +8,11 @@ jobs:
     name: Publishing
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: denoland/setup-deno@v1.0.0
+      - uses: denoland/setup-deno@v1.1.0
         with:
-          deno-version: v1.x
+          deno-version: v1.x # Run with latest stable Deno.
 
       - name: Check format
         run: deno fmt --check

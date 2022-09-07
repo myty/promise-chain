@@ -1,6 +1,7 @@
 {
   "deno.codeLens.implementations": true,
   "deno.enable": true,
+  "deno.unstable": true,
   "deno.codeLens.test": true,
   "deno.codeLens.references": true,
   "deno.codeLens.referencesAllFunctions": true,
