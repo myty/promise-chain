@@ -18,6 +18,7 @@
       "settings": {
         // Enables the project as a Deno project
         "deno.enable": true,
+        "deno.unstable": true,
         // Enables Deno linting for the project
         "deno.lint": true,
         // Sets Deno as the default formatter for the project

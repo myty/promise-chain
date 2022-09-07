@@ -3,7 +3,7 @@ import {
   assertEquals,
 } from "https://deno.land/std@0.154.0/testing/asserts.ts";
 import { Composable } from "./composable.ts";
-import { PickMatching } from "./types.ts";
+import { TestClass } from "./stubs/test-class.ts";
 
 Deno.test(async function whenTraditionalAsyncChainingItReturnsResult() {
   // Arrange
@@ -14,8 +14,8 @@ Deno.test(async function whenTraditionalAsyncChainingItReturnsResult() {
     .asyncIncrement("propertyOne", 3)
     .then((t) => t.asyncIncrementTwo())
     .then((t) => t.asyncIncrementOne())
-    .then((t) => Promise.resolve(t.increment("propertyTwo", 5)))
-    .then((t) => Promise.resolve(t.increment("propertyOne", 2)))
+    .then((t) => t.increment("propertyTwo", 5))
+    .then((t) => t.increment("propertyOne", 2))
     .then((t) => t.asyncIncrementOne());
 
   // Assert
@@ -41,6 +41,18 @@ Deno.test(async function whenAsyncChainingItReturnsResult() {
   assertEquals(result.propertyTwo, 6);
 });
 
+Deno.test(function whenComposableAsyncItIsPromise() {
+  // Arrange
+  const testClass = new TestClass();
+
+  // Act
+  const result = Composable.create(testClass);
+
+  // Assert
+  assert(result instanceof Composable);
+  assert(result instanceof Promise);
+});
+
 Deno.test(async function whenChainedPromiseIsReusedItReturnsCachedResult() {
   // Arrange
   const testClass = new TestClass();
@@ -64,57 +76,3 @@ Deno.test(async function whenChainedPromiseIsReusedItReturnsCachedResult() {
   assertEquals(resultTwo.propertyOne, 1);
   assertEquals(resultTwo.propertyTwo, 6);
 });
-
-type PickNumbers<T> = PickMatching<T, number>;
-
-class TestClass {
-  public readonly propertyOne: number;
-  public readonly propertyTwo: number;
-
-  constructor({
-    propertyOne = 0,
-    propertyTwo = 0,
-  }: Partial<PickNumbers<TestClass>> = {}) {
-    this.propertyOne = propertyOne;
-    this.propertyTwo = propertyTwo;
-  }
-
-  async asyncIncrement(
-    property: keyof PickNumbers<TestClass>,
-    increment: number,
-  ): Promise<TestClass> {
-    return new TestClass({
-      ...this,
-      [property]: await Promise.resolve(this[property] + increment),
-    });
-  }
-
-  async asyncIncrementOne(): Promise<TestClass> {
-    return await this.asyncIncrement("propertyOne", 1);
-  }
-
-  asyncIncrementOneLongRunningTask(
-    durationMs: number,
-  ): Promise<TestClass> {
-    return new Promise((resolve) => {
-      const timer = setTimeout(() => {
-        this.asyncIncrement("propertyOne", 1).then(resolve);
-        clearTimeout(timer);
-      }, durationMs);
-    });
-  }
-
-  async asyncIncrementTwo(): Promise<TestClass> {
-    return await this.asyncIncrement("propertyTwo", 1);
-  }
-
-  increment(
-    property: keyof PickNumbers<TestClass>,
-    increment: number,
-  ): TestClass {
-    return new TestClass({
-      ...this,
-      [property]: this[property] + increment,
-    });
-  }
-}
