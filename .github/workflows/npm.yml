@@ -18,14 +18,5 @@ jobs:
         with:
           deno-version: v1.x # Run with latest stable Deno.
 
-      - name: Check format
-        run: deno fmt --check
-
-      - name: Run Linter
-        run: deno lint
-
-      - name: Run Tests
-        run: deno test
-
       - name: Build and Test NPM Package
         run: deno run -A scripts/build_npm.ts ${{ github.ref }}
