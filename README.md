@@ -1,5 +1,6 @@
 # Composable-Async
 
+[![GitHub version](https://badge.fury.io/gh/myty%2Fcomposable-async.svg)](https://badge.fury.io/gh/myty%2Fcomposable-async)
 [![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno)](https://deno.land/x/composable_async)
 [![npm version](https://badge.fury.io/js/composable-async.svg)](https://badge.fury.io/js/composable-async)
 [![Coverage Status](https://coveralls.io/repos/github/myty/composable-async/badge.svg?branch=main)](https://coveralls.io/github/myty/composable-async?branch=main)
