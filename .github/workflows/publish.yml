@@ -46,8 +46,3 @@ jobs:
           npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - uses: syossan27/purge-github-readme-image@v1.0.0
-        with:
-          repository: ${github.repository}
-          token: ${{ secrets.GITHUB_TOKEN }}
