@@ -1,1 +1,3 @@
-export { PromiseChain } from "./promise-chain.ts";
+import PromiseChain, { chain } from "./promise-chain.ts";
+
+export { chain, PromiseChain };
