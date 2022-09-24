@@ -81,7 +81,7 @@ console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`);
 With PromiseChain, it is simplified and easier to read.
 
 ```typescript
-const { propertyOne, propertyTwo } = await Composable.create(testClass)
+const { propertyOne, propertyTwo } = await PromiseChain(testClass)
   .asyncIncrement("propertyOne", 3)
   .asyncIncrement("propertyTwo", 5)
   .increment("propertyTwo", 5);

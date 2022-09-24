@@ -1,8 +1,14 @@
 import {
   assert,
   assertEquals,
+  assertRejects,
 } from "https://deno.land/std@0.154.0/testing/asserts.ts";
-import { PromiseChain } from "./promise-chain.ts";
+import {
+  assertSpyCalls,
+  spy,
+} from "https://deno.land/std@0.157.0/testing/mock.ts";
+import PromiseChain from "./promise-chain.ts";
+import { TestClassWithException } from "./stubs/test-class-with-exceptions.ts";
 import { TestClass } from "./stubs/test-class.ts";
 
 Deno.test(async function whenTraditionalAsyncChainingItReturnsResult() {
@@ -28,7 +34,7 @@ Deno.test(async function whenAsyncChainingItReturnsResult() {
   const testClass = new TestClass();
 
   // Act
-  const result = await PromiseChain.create(testClass)
+  const result = await PromiseChain(testClass)
     .asyncIncrement("propertyOne", 3)
     .asyncIncrementTwo()
     .asyncIncrementOne()
@@ -41,23 +47,24 @@ Deno.test(async function whenAsyncChainingItReturnsResult() {
   assertEquals(result.propertyTwo, 6);
 });
 
-Deno.test(function whenComposableAsyncItIsPromise() {
+Deno.test(function whenComposableAsyncItIsPromiseLike() {
   // Arrange
   const testClass = new TestClass();
 
   // Act
-  const result = PromiseChain.create(testClass);
+  const result = PromiseChain(testClass);
 
   // Assert
-  assert(result instanceof PromiseChain);
-  assert(result instanceof Promise);
+  assert("then" in result && typeof result.then === "function");
+  assert("catch" in result && typeof result.catch === "function");
+  assert("finally" in result && typeof result.finally === "function");
 });
 
 Deno.test(async function whenChainedPromiseIsReusedItReturnsCachedResult() {
   // Arrange
   const testClass = new TestClass();
   const durationExpectedMs = 250;
-  const resultTask = PromiseChain.create(testClass)
+  const resultTask = PromiseChain(testClass)
     .asyncIncrement("propertyTwo", 3)
     .asyncIncrementOneLongRunningTask(durationExpectedMs);
   await resultTask;
@@ -75,4 +82,40 @@ Deno.test(async function whenChainedPromiseIsReusedItReturnsCachedResult() {
   );
   assertEquals(resultTwo.propertyOne, 1);
   assertEquals(resultTwo.propertyTwo, 6);
+});
+
+Deno.test(function whenPromiseChainHasExceptionItIsRejected() {
+  // Arrange
+  const testClassWithException = new TestClassWithException();
+
+  // Act, Assert
+  assertRejects(() => PromiseChain(testClassWithException).throwException());
+});
+
+Deno.test(async function whenPromiseChainHasExceptionItIsCaught() {
+  // Arrange
+  const catchSpy = spy();
+  const testClassWithException = new TestClassWithException();
+
+  // Act
+  await PromiseChain(testClassWithException)
+    .throwException()
+    .catch(catchSpy);
+
+  // Assert
+  assertSpyCalls(catchSpy, 1);
+});
+
+Deno.test(async function whenPromiseChainPromiseIsFinalized() {
+  // Arrange
+  const finallySpy = spy();
+  const testClass = new TestClass();
+
+  // Act
+  await PromiseChain(testClass)
+    .asyncIncrementOne()
+    .finally(finallySpy);
+
+  // Assert
+  assertSpyCalls(finallySpy, 1);
 });

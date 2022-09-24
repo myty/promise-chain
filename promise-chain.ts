@@ -1,29 +1,23 @@
-import { AsyncComposable } from "./types.ts";
+import { PromiseChainable, PromiseChainableConstructor } from "./types.ts";
 
 /**
  * Utility class to wrap a composition class with the intended purpose of chaining methods, specifically useful for
  * functions that return Promises. Note: Promise functions and non-promise functions can be mixed.
  */
-export class PromiseChain<T> extends Promise<T> implements Promise<T> {
-  /**
-   * Create a chaninable class based off of the functions that return "this" or a Promise of "this".
-   */
-  static create<T>(wrappedClass: T): AsyncComposable<T> {
-    return new PromiseChain(wrappedClass) as unknown as AsyncComposable<T>;
-  }
+const PromiseChain = function <T>(this: PromiseChainable<T> | void, obj: T) {
+  if (!(this instanceof PromiseChain)) {
+    return new PromiseChain(obj);
+  } else {
+    const self = this as unknown as { _valuePromise: Promise<T> } & Promise<T>;
 
-  private _valuePromise: Promise<T>;
+    self._valuePromise = Promise.resolve(obj);
 
-  private constructor(_wrappedClass: T) {
-    super((_resolve, _reject) => {});
+    this.then = (...args) => self._valuePromise.then(...args);
+    this.catch = (...args) => self._valuePromise.catch(...args);
+    this.finally = (...args) => self._valuePromise.finally(...args);
 
-    this._valuePromise = Promise.resolve(_wrappedClass);
-    this.then = (...args) => this._valuePromise.then(...args);
-    this.catch = (...args) => this._valuePromise.catch(...args);
-    this.finally = (...args) => this._valuePromise.finally(...args);
-
-    PromiseChain.keysOfObject(_wrappedClass).forEach((key) => {
-      const callableFunc = _wrappedClass[key];
+    keysOfObject(obj).forEach((key) => {
+      const callableFunc = obj[key];
 
       if (!(callableFunc instanceof Function)) {
         return;
@@ -31,7 +25,7 @@ export class PromiseChain<T> extends Promise<T> implements Promise<T> {
 
       Object.defineProperty(this, key, {
         value: (...args: unknown[]) => {
-          this._valuePromise = this._valuePromise.then((val: T) =>
+          self._valuePromise = self._valuePromise.then((val: T) =>
             callableFunc.apply(val, args)
           );
 
@@ -40,18 +34,16 @@ export class PromiseChain<T> extends Promise<T> implements Promise<T> {
       });
     });
   }
+} as PromiseChainableConstructor;
 
-  // Private static methods
+function keysOfObject<T>(obj: T): Array<keyof T> {
+  const proto = Object.getPrototypeOf(obj);
 
-  private static keysOfObject<T>(obj: T): Array<keyof T> {
-    const proto = Object.getPrototypeOf(obj);
+  const keys = Object.keys(obj).concat(
+    Object.getOwnPropertyNames(proto).filter((name) => name !== "constructor"),
+  );
 
-    const keys = Object.keys(obj).concat(
-      Object.getOwnPropertyNames(proto).filter((name) =>
-        name !== "constructor"
-      ),
-    );
-
-    return keys as Array<keyof T>;
-  }
+  return keys as Array<keyof T>;
 }
+
+export default PromiseChain;
