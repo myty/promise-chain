@@ -7,7 +7,7 @@ import {
   assertSpyCalls,
   spy,
 } from "https://deno.land/std@0.157.0/testing/mock.ts";
-import PromiseChain, { chain } from "./promise-chain.ts";
+import PromiseChain from "./promise-chain.ts";
 import { TestClassWithException } from "./stubs/test-class-with-exceptions.ts";
 import { TestClass } from "./stubs/test-class.ts";
 
@@ -34,7 +34,7 @@ Deno.test(async function whenAsyncChainingItReturnsResult() {
   const testClass = new TestClass();
 
   // Act
-  const result = await chain(testClass)
+  const result = await PromiseChain(testClass)
     .asyncIncrement("propertyOne", 3)
     .asyncIncrementTwo()
     .asyncIncrementOne()
@@ -47,23 +47,24 @@ Deno.test(async function whenAsyncChainingItReturnsResult() {
   assertEquals(result.propertyTwo, 6);
 });
 
-Deno.test(function whenComposableAsyncItIsPromise() {
+Deno.test(function whenComposableAsyncItIsPromiseLike() {
   // Arrange
   const testClass = new TestClass();
 
   // Act
-  const result = chain(testClass);
+  const result = PromiseChain(testClass);
 
   // Assert
-  assert(result instanceof PromiseChain);
-  assert(result instanceof Promise);
+  assert("then" in result && typeof result.then === "function");
+  assert("catch" in result && typeof result.catch === "function");
+  assert("finally" in result && typeof result.finally === "function");
 });
 
 Deno.test(async function whenChainedPromiseIsReusedItReturnsCachedResult() {
   // Arrange
   const testClass = new TestClass();
   const durationExpectedMs = 250;
-  const resultTask = chain(testClass)
+  const resultTask = PromiseChain(testClass)
     .asyncIncrement("propertyTwo", 3)
     .asyncIncrementOneLongRunningTask(durationExpectedMs);
   await resultTask;
@@ -88,7 +89,7 @@ Deno.test(function whenPromiseChainHasExceptionItIsRejected() {
   const testClassWithException = new TestClassWithException();
 
   // Act, Assert
-  assertRejects(() => chain(testClassWithException).throwException());
+  assertRejects(() => PromiseChain(testClassWithException).throwException());
 });
 
 Deno.test(async function whenPromiseChainHasExceptionItIsCaught() {
@@ -97,7 +98,7 @@ Deno.test(async function whenPromiseChainHasExceptionItIsCaught() {
   const testClassWithException = new TestClassWithException();
 
   // Act
-  await chain(testClassWithException)
+  await PromiseChain(testClassWithException)
     .throwException()
     .catch(catchSpy);
 
@@ -111,7 +112,7 @@ Deno.test(async function whenPromiseChainPromiseIsFinalized() {
   const testClass = new TestClass();
 
   // Act
-  await chain(testClass)
+  await PromiseChain(testClass)
     .asyncIncrementOne()
     .finally(finallySpy);
 
