@@ -24,7 +24,7 @@ pnpm install --save promise-chain
 ### Deno
 
 ```bash
-import { Composable } from "https://deno.land/x/promise_chain/mod.ts";
+import Composable from "https://deno.land/x/promise_chain/mod.ts";
 ```
 
 ## Example Usage
