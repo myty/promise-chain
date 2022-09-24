@@ -35,12 +35,6 @@ jobs:
       - name: Build NPM Package
         run: deno run -A scripts/build_npm.ts ${{ github.ref }}
 
-      - name: refresh badges
-        uses: b3b00/refreshBadgesAction@v1.0.7
-        with:
-          repository: "myty/promise-chain"
-          branch: main
-
       - uses: actions/setup-node@v2
         with:
           node-version: "16.x"
@@ -52,3 +46,8 @@ jobs:
           npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - uses: syossan27/purge-github-readme-image@v1.0.0
+        with:
+          repository: ${github.repository}
+          token: ${{ secrets.GITHUB_TOKEN }}
