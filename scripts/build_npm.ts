@@ -9,7 +9,7 @@ await build({
     deno: "dev",
   },
   package: {
-    name: "promise-chain",
+    name: "@myty/promise-chain",
     version: Deno.args[0].substring("refs/tags/v".length),
     description:
       "Wrapper utility class that enables composition via asynchronous (Promises) and synchronous method chaining.",
