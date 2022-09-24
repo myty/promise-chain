@@ -1,9 +1,9 @@
-# Composable-Async
+# Composable-Promise
 
-[![GitHub version](https://badgen.net/github/release/myty/composable-async?color=green)](https://github.com/myty/composable-async)
-[![deno land](https://badgen.net/github/release/myty/composable-async?color=green&label=deno.land)](https://deno.land/x/composable_async)
-[![npm version](https://badgen.net/npm/v/composable-async?color=green)](https://www.npmjs.com/package/composable-async)
-[![Coverage Status](https://badgen.net/coveralls/c/github/myty/composable-async?color=green)](https://coveralls.io/github/myty/composable-async?branch=main)
+[![GitHub version](https://badgen.net/github/release/myty/composable-promise?color=green)](https://github.com/myty/composable-promise)
+[![deno land](https://badgen.net/github/release/myty/composable-promise?color=green&label=deno.land)](https://deno.land/x/composable_promise)
+[![npm version](https://badgen.net/npm/v/composable-promise?color=green)](https://www.npmjs.com/package/composable-promise)
+[![Coverage Status](https://badgen.net/coveralls/c/github/myty/composable-promise?color=green)](https://coveralls.io/github/myty/composable-promise?branch=main)
 
 Wrapper utility class that enables composition via asynchronous (Promises) and
 synchronous method chaining.
@@ -14,17 +14,17 @@ synchronous method chaining.
 
 ```bash
 # npm
-npm install --save composable-async
+npm install --save composable-promise
 # yarn
-yarn add composable-async
+yarn add composable-promise
 # pnpm
-pnpm install --save composable-async
+pnpm install --save composable-promise
 ```
 
 ### Deno
 
 ```bash
-import { Composable } from "https://deno.land/x/composable_async/mod.ts";
+import { Composable } from "https://deno.land/x/composable_promise/mod.ts";
 ```
 
 ## Example Usage
@@ -78,7 +78,7 @@ console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`);
 // OUTPUT: "Result: propertyOne=3, propertyTwo=10"
 ```
 
-With Composable-Async, it is simplified and easier to read.
+With Composable-Promise, it is simplified and easier to read.
 
 ```typescript
 const { propertyOne, propertyTwo } = await Composable.create(testClass)

@@ -34,11 +34,11 @@ jobs:
 
       - name: Build NPM Package
         run: deno run -A scripts/build_npm.ts ${{ github.ref }}
-        
+
       - name: refresh badges
         uses: b3b00/refreshBadgesAction@v1.0.7
         with:
-          repository : 'myty/composable-async'
+          repository: "myty/composable-promise"
           branch: main
 
       - uses: actions/setup-node@v2
