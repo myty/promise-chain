@@ -2,7 +2,7 @@ import {
   assert,
   assertEquals,
 } from "https://deno.land/std@0.154.0/testing/asserts.ts";
-import PromiseChain from "./promise-chain.ts";
+import { PromiseChain } from "./promise-chain.ts";
 import { TestClass } from "./stubs/test-class.ts";
 
 Deno.test(async function whenTraditionalAsyncChainingItReturnsResult() {

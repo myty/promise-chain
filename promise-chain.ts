@@ -4,7 +4,7 @@ import { AsyncComposable } from "./types.ts";
  * Utility class to wrap a composition class with the intended purpose of chaining methods, specifically useful for
  * functions that return Promises. Note: Promise functions and non-promise functions can be mixed.
  */
-export default class PromiseChain<T> extends Promise<T> implements Promise<T> {
+export class PromiseChain<T> extends Promise<T> implements Promise<T> {
   /**
    * Create a chaninable class based off of the functions that return "this" or a Promise of "this".
    */

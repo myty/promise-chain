@@ -1,1 +1,1 @@
-export { Composable } from "./composable.ts";
+export { PromiseChain } from "./promise-chain.ts";

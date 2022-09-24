@@ -1,4 +1,4 @@
-import PromiseChain from "./promise-chain.ts";
+import { PromiseChain } from "./promise-chain.ts";
 import { TestClass } from "./stubs/test-class.ts";
 
 const iterate = (
