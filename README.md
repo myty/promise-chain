@@ -1,9 +1,9 @@
-# Composable-Promise
+# PromiseChain
 
-[![GitHub version](https://badgen.net/github/release/myty/composable-promise?color=green)](https://github.com/myty/composable-promise)
-[![deno land](https://badgen.net/github/release/myty/composable-promise?color=green&label=deno.land)](https://deno.land/x/composable_promise)
-[![npm version](https://badgen.net/npm/v/composable-promise?color=green)](https://www.npmjs.com/package/composable-promise)
-[![Coverage Status](https://badgen.net/coveralls/c/github/myty/composable-promise?color=green)](https://coveralls.io/github/myty/composable-promise?branch=main)
+[![GitHub version](https://badgen.net/github/release/myty/promise-chain?color=green)](https://github.com/myty/promise-chain)
+[![deno land](https://badgen.net/github/release/myty/promise-chain?color=green&label=deno.land)](https://deno.land/x/promise_chain)
+[![npm version](https://badgen.net/npm/v/promise-chain?color=green)](https://www.npmjs.com/package/promise-chain)
+[![Coverage Status](https://badgen.net/coveralls/c/github/myty/promise-chain?color=green)](https://coveralls.io/github/myty/promise-chain?branch=main)
 
 Wrapper utility class that enables composition via asynchronous (Promises) and
 synchronous method chaining.
@@ -14,17 +14,17 @@ synchronous method chaining.
 
 ```bash
 # npm
-npm install --save composable-promise
+npm install --save promise-chain
 # yarn
-yarn add composable-promise
+yarn add promise-chain
 # pnpm
-pnpm install --save composable-promise
+pnpm install --save promise-chain
 ```
 
 ### Deno
 
 ```bash
-import { Composable } from "https://deno.land/x/composable_promise/mod.ts";
+import { Composable } from "https://deno.land/x/promise_chain/mod.ts";
 ```
 
 ## Example Usage
@@ -78,7 +78,7 @@ console.log(`Result: propertyOne=${propertyOne}, propertyTwo=${propertyTwo}`);
 // OUTPUT: "Result: propertyOne=3, propertyTwo=10"
 ```
 
-With Composable-Promise, it is simplified and easier to read.
+With PromiseChain, it is simplified and easier to read.
 
 ```typescript
 const { propertyOne, propertyTwo } = await Composable.create(testClass)

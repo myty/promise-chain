@@ -9,17 +9,17 @@ await build({
     deno: "dev",
   },
   package: {
-    name: "composable-promise",
+    name: "promise-chain",
     version: Deno.args[0].substring("refs/tags/v".length),
     description:
       "Wrapper utility class that enables composition via asynchronous (Promises) and synchronous method chaining.",
     license: "MIT",
     repository: {
       type: "git",
-      url: "git+https://github.com/myty/composable-promise.git",
+      url: "git+https://github.com/myty/promise-chain.git",
     },
     bugs: {
-      url: "https://github.com/myty/composable-promise/issues",
+      url: "https://github.com/myty/promise-chain/issues",
     },
   },
 });

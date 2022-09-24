@@ -38,7 +38,7 @@ jobs:
       - name: refresh badges
         uses: b3b00/refreshBadgesAction@v1.0.7
         with:
-          repository: "myty/composable-promise"
+          repository: "myty/promise-chain"
           branch: main
 
       - uses: actions/setup-node@v2

@@ -1,4 +1,4 @@
-import { Composable } from "./composable.ts";
+import PromiseChain from "./promise-chain.ts";
 import { TestClass } from "./stubs/test-class.ts";
 
 const iterate = (
@@ -18,7 +18,7 @@ Deno.bench(
 Deno.bench(
   "Composable Async Chain (1 Step)",
   { group: "1 step" },
-  iterate((t) => Composable.create(t).asyncIncrement("propertyOne", 3)),
+  iterate((t) => PromiseChain.create(t).asyncIncrement("propertyOne", 3)),
 );
 
 Deno.bench(
@@ -35,7 +35,7 @@ Deno.bench(
   "Composable Async Chain (2 Steps)",
   { group: "2 steps" },
   iterate((t) =>
-    Composable.create(t).asyncIncrement("propertyOne", 3).increment(
+    PromiseChain.create(t).asyncIncrement("propertyOne", 3).increment(
       "propertyTwo",
       5,
     )
@@ -60,7 +60,7 @@ Deno.bench(
   "Composable Async Chain (6 Steps)",
   { group: "6 steps" },
   iterate((t) =>
-    Composable.create(t)
+    PromiseChain.create(t)
       .asyncIncrement("propertyOne", 3)
       .asyncIncrementTwo()
       .asyncIncrementOne()

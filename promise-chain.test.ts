@@ -2,7 +2,7 @@ import {
   assert,
   assertEquals,
 } from "https://deno.land/std@0.154.0/testing/asserts.ts";
-import { Composable } from "./composable.ts";
+import PromiseChain from "./promise-chain.ts";
 import { TestClass } from "./stubs/test-class.ts";
 
 Deno.test(async function whenTraditionalAsyncChainingItReturnsResult() {
@@ -28,7 +28,7 @@ Deno.test(async function whenAsyncChainingItReturnsResult() {
   const testClass = new TestClass();
 
   // Act
-  const result = await Composable.create(testClass)
+  const result = await PromiseChain.create(testClass)
     .asyncIncrement("propertyOne", 3)
     .asyncIncrementTwo()
     .asyncIncrementOne()
@@ -46,10 +46,10 @@ Deno.test(function whenComposableAsyncItIsPromise() {
   const testClass = new TestClass();
 
   // Act
-  const result = Composable.create(testClass);
+  const result = PromiseChain.create(testClass);
 
   // Assert
-  assert(result instanceof Composable);
+  assert(result instanceof PromiseChain);
   assert(result instanceof Promise);
 });
 
@@ -57,7 +57,7 @@ Deno.test(async function whenChainedPromiseIsReusedItReturnsCachedResult() {
   // Arrange
   const testClass = new TestClass();
   const durationExpectedMs = 250;
-  const resultTask = Composable.create(testClass)
+  const resultTask = PromiseChain.create(testClass)
     .asyncIncrement("propertyTwo", 3)
     .asyncIncrementOneLongRunningTask(durationExpectedMs);
   await resultTask;
