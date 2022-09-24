@@ -1,8 +1,14 @@
 import {
   assert,
   assertEquals,
+  assertRejects,
 } from "https://deno.land/std@0.154.0/testing/asserts.ts";
+import {
+  assertSpyCalls,
+  spy,
+} from "https://deno.land/std@0.157.0/testing/mock.ts";
 import PromiseChain, { chain } from "./promise-chain.ts";
+import { TestClassWithException } from "./stubs/test-class-with-exceptions.ts";
 import { TestClass } from "./stubs/test-class.ts";
 
 Deno.test(async function whenTraditionalAsyncChainingItReturnsResult() {
@@ -75,4 +81,40 @@ Deno.test(async function whenChainedPromiseIsReusedItReturnsCachedResult() {
   );
   assertEquals(resultTwo.propertyOne, 1);
   assertEquals(resultTwo.propertyTwo, 6);
+});
+
+Deno.test(function whenPromiseChainHasExceptionItIsRejected() {
+  // Arrange
+  const testClassWithException = new TestClassWithException();
+
+  // Act, Assert
+  assertRejects(() => chain(testClassWithException).throwException());
+});
+
+Deno.test(async function whenPromiseChainHasExceptionItIsCaught() {
+  // Arrange
+  const catchSpy = spy();
+  const testClassWithException = new TestClassWithException();
+
+  // Act
+  await chain(testClassWithException)
+    .throwException()
+    .catch(catchSpy);
+
+  // Assert
+  assertSpyCalls(catchSpy, 1);
+});
+
+Deno.test(async function whenPromiseChainPromiseIsFinalized() {
+  // Arrange
+  const finallySpy = spy();
+  const testClass = new TestClass();
+
+  // Act
+  await chain(testClass)
+    .asyncIncrementOne()
+    .finally(finallySpy);
+
+  // Assert
+  assertSpyCalls(finallySpy, 1);
 });
