@@ -4,21 +4,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish:
-    name: Publishing
+  clear-cache:
+    name: Clear README Image Cache
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
+      - uses: denoland/setup-deno@v1.1.0
+        with:
+          deno-version: v1.x # Run with latest stable Deno.
+
       - name: Clear README Image Cache
-        run: |
-          curl -H 'Authorization: token '${TOKEN}' -H 'Accept: application/vnd.github.v3.html' -sL ${url} \
-          | grep -oE '<img src="https?://camo.githubusercontent.com/[^"]+' \
-          | sed -e 's/<img src="//' \
-          | while read url; do
-            echo "Purging: $url"
-            curl -sX PURGE "$url" -o /dev/null
-          done
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          url: 'https://api.github.com/repos/myty/promise-chain/readme'
+        run:  deno run --unstable --allow-net ./scripts/clear-readme-cache.ts
