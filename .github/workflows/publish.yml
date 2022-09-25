@@ -47,4 +47,5 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - uses: myty/promise-chain/.github/workflows/clear-cache.yml@main
+      - name: Clear README Image Cache
+        run:  deno run --unstable --allow-net ./scripts/clear-readme-cache.ts
