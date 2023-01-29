@@ -2,11 +2,9 @@ import {
   assert,
   assertEquals,
   assertRejects,
-} from "https://deno.land/std@0.154.0/testing/asserts.ts";
-import {
   assertSpyCalls,
   spy,
-} from "https://deno.land/std@0.157.0/testing/mock.ts";
+} from "./deps.ts";
 import PromiseChain from "./promise-chain.ts";
 import { TestClassWithException } from "./stubs/test-class-with-exceptions.ts";
 import { TestClass } from "./stubs/test-class.ts";

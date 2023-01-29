@@ -43,7 +43,8 @@
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
         "denoland.vscode-deno",
-        "laurencebahiirwa.deno-std-lib-snippets"
+        "laurencebahiirwa.deno-std-lib-snippets",
+        "justjavac.vscode-deno-extensionpack"
       ]
     }
   },

@@ -4,7 +4,10 @@ import { PromiseChainable, PromiseChainableConstructor } from "./types.ts";
  * Utility class to wrap a composition class with the intended purpose of chaining methods, specifically useful for
  * functions that return Promises. Note: Promise functions and non-promise functions can be mixed.
  */
-const PromiseChain = function <T>(this: PromiseChainable<T> | void, obj: T) {
+const PromiseChain = function <T extends Record<string, unknown>>(
+  this: PromiseChainable<T> | void,
+  obj: T,
+) {
   if (!(this instanceof PromiseChain)) {
     return new PromiseChain(obj);
   } else {
@@ -36,7 +39,9 @@ const PromiseChain = function <T>(this: PromiseChainable<T> | void, obj: T) {
   }
 } as PromiseChainableConstructor;
 
-function keysOfObject<T>(obj: T): Array<keyof T> {
+function keysOfObject<T extends Record<string, unknown>>(
+  obj: T,
+): Array<keyof T> {
   const proto = Object.getPrototypeOf(obj);
 
   const keys = Object.keys(obj).concat(
