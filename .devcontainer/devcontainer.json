@@ -1,13 +1,7 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/deno
 {
   "name": "Deno",
   "build": {
-    "dockerfile": "Dockerfile",
-    // Update 'VARIANT' to pick an Debian OS version: bullseye, buster
-    "args": {
-      "VARIANT": "bullseye"
-    }
+    "dockerfile": "Dockerfile"
   },
 
   // Configure tool-specific properties.
@@ -49,5 +43,11 @@
     }
   },
 
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "nodeGypDependencies": true,
+      "version": "lts"
+    }
+  }
 }

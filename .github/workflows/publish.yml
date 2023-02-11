@@ -48,4 +48,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Clear README Image Cache
-        run:  deno run --unstable --allow-net ./scripts/clear-readme-cache.ts
+        run:  deno task clear-cache
