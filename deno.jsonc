@@ -1,6 +1,5 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts",
     "clear-cache": "deno run --unstable --allow-net ./scripts/clear-readme-cache.ts",
     "build": "deno run -A scripts/build_npm.ts"
   }
