@@ -13,7 +13,7 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: denoland/setup-deno@v1.1.4
         with:
@@ -43,9 +43,9 @@ jobs:
       - name: Build NPM Package
         run: deno run -A scripts/build_npm.ts ${{ github.ref }}
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: "16.x"
+          node-version: "20.x"
           registry-url: "https://registry.npmjs.org"
 
       - name: Publish NPM Package
