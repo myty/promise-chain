@@ -1,8 +1,22 @@
-import { PromiseChainable, PromiseChainableConstructor } from "./types.ts";
+import type { PromiseChainable, PromiseChainableConstructor } from "./types.ts";
 
 /**
  * Utility class to wrap a composition class with the intended purpose of chaining methods, specifically useful for
  * functions that return Promises. Note: Promise functions and non-promise functions can be mixed.
+ *
+ * ### Example
+ *
+ * ```ts
+ * const testClass = new TestClassWithSyncAndAsyncMethods();
+ * const result = await PromiseChain(testClass)
+    .asyncIncrement("propertyOne", 3)
+    .asyncIncrementTwo()
+    .asyncIncrementOne()
+    .increment("propertyTwo", 5)
+    .increment("propertyOne", 2)
+    .asyncIncrementOne();
+ * ```
+ *
  */
 const PromiseChain = function <T extends Record<string, unknown>>(
   this: PromiseChainable<T> | void,

@@ -1,4 +1,4 @@
-import { PickMatching } from "../types.ts";
+import type { PickMatching } from "../types.ts";
 
 type PickNumbers<T> = PickMatching<T, number>;
 
