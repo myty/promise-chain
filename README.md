@@ -1,5 +1,7 @@
 # PromiseChain
 
+[![JSR](https://jsr.io/badges/@myty/promise-chain)](https://jsr.io/@myty/promise-chain)
+[![JSR Score](https://jsr.io/badges/@myty/promise-chain/score)](https://jsr.io/@myty/promise-chain)
 [![GitHub version](https://badgen.net/github/release/myty/promise-chain?color=green)](https://github.com/myty/promise-chain)
 [![deno land](https://badgen.net/github/release/myty/promise-chain?color=green&label=deno.land)](https://deno.land/x/promise_chain)
 [![npm version](https://badgen.net/npm/v/@myty/promise-chain?color=green)](https://www.npmjs.com/package/@myty/promise-chain)
